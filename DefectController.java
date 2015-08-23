@@ -10,7 +10,7 @@ public class DefectController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     //need to edit here
-    private static String INSERT_OR_EDIT = "/example.jsp";
+    private static String ADD_OR_EDIT = "/example.jsp";
     private static String LIST_DEFECT = "/defect.jsp";
     private DefectDao dao;
 
@@ -28,24 +28,25 @@ The parameters must by in sync with the JSP <form>
     public void doGet(HttpServletRequest request, HttpServletResponse response)
               throws ServletException, IOException {
 
-              String forward = "";
+              String jspPage = "";
               String action = request.getParameter("action");
-
+                
+                //equalsIgnoreCase() compares Strings without case sensitivity.
               if (action.equalsIgnoreCase("delete")) {
                     String defectId = request.getParameter("defectId");
                     dao.deleteDefect(defectId);
-                    forward = LIST_DEFECT;
+                    jspPage = LIST_DEFECT;
                     request.setAttribute("defects", dao.getAllDefects());
               } else if (action.equalsIgnoreCase("edit")) {
-                  forward = INSERT_OR_EDIT;
+                  jspPage = ADD_OR_EDIT;
                   String userId = request.getParameter("defectId");
                   Defect defect = dao.getDefectById(defectId);
                   request.setAttribute("defect", defect);
               } else if(action.equalsIgnoreCase("listDefect")){
-                  forward = LIST_DEFECT;
+                  jspPage = LIST_DEFECT;
                   request.setAttribute("defects", dao.getAllDefects());
               } else {
-                  forward = INSERT_OR_EDIT;
+                  jspPage = ADD_OR_EDIT;
               }
 
               RequestDispatcher rd = request.getRequestDispatcher(forward);
@@ -56,7 +57,6 @@ The parameters must by in sync with the JSP <form>
            throws ServletException, IOException {
 
             Defect defect = new Defect();
-            defect.setStatus(request.getParameter("defectId"));
             //add more here
 
             try {
