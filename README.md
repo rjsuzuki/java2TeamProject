@@ -1,7 +1,7 @@
 # java2TeamProject
 group project for UCI's JAVA II class
 
-System shoudl provide several features:
+System should provide several features:
 The abilit to submit a bug - includes status, priority, assignee, summary, and detailed description.
 The ability to update an existing bug(defect)
 The ability to assign a bug request to a person.
