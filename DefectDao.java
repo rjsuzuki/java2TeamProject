@@ -11,6 +11,7 @@ public class DefectDao {
 
     public void checkDefect(Defect defect) {
         try {
+            //Need to edit MYSQL statement
             PreparedStatement ps = connection.prepareStatement("SELECT * from DFECTLIST where * =?");
             ps.setString(1, defect.get);
 
@@ -19,6 +20,7 @@ public class DefectDao {
 
     public void addDefect(Defect defect) {
           try {
+              //Need to edit MYSQL statement
               PreparedStatement ps = connection.prepareStatement("INSERT INTO ");
               ps.setString(1, defect.getStatus());
               ps.setString(2, defect.getPriority());
@@ -33,6 +35,7 @@ public class DefectDao {
 
     public void deleteDefect(int defectId) {
         try {
+            //Need to edit MYSQL statement
             PrepararedStatement ps = connection.prepareStatement("");
             ps.setString(1, defectId);
             ps.executeUpdate();
