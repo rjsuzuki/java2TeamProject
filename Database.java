@@ -5,6 +5,7 @@ public class Database {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection
+                        //Need to edit the values below
                       ("jdbc:mysql://localhost:3306/dbname", 
                       "root", "password");
                       return connection;
