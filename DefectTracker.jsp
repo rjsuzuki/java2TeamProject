@@ -10,7 +10,7 @@
 public void displayDefectTable(ArrayList<String> defectList, javax.servlet.jsp.JspWriter out, HttpServletRequest request){
 
 
-	
+
 	for (String defect : defectList) {
 
 		String[] defectInfo = defect.split("@@@");
@@ -29,7 +29,7 @@ public void displayDefectTable(ArrayList<String> defectList, javax.servlet.jsp.J
 			out.println("<td><form action = \"Edit_Defect_Form.jsp\">");
 			out.println("<input type=\"submit\" value=\"Edit\">");
 			out.println("</form></td>");
-			out.println("</tr>");		
+			out.println("</tr>");
 		}
 		catch (IOException ioe) {
 		}
@@ -47,10 +47,10 @@ public void displayDefectTable(ArrayList<String> defectList, javax.servlet.jsp.J
 <!--<body bgcolor=#ADD8E6> -->
 <body>
 
-    <div>   
-         
+    <div>
+
          <div align="center"> <h1>Defect Tracking System</h1> </div>
-         
+
          <br>
 
 		 <!------------------------------------------------------------------------>
@@ -73,7 +73,7 @@ public void displayDefectTable(ArrayList<String> defectList, javax.servlet.jsp.J
 			defectList.add("0004@@@In Progress@@@3@@@Karen Sam@@@Defect 3@@@It sometimes works");
 			defectList.add("0005@@@Unknown@@@4@@@Putul Patel@@@Defect 4@@@It works every other time");
 			defectList.add("0006@@@Close@@@1@@@Ryan Suzuki@@@Defect 1@@@Incorrect design");
-			
+
 			// get a list of assignees from the defect list
 			for (String defect : defectList) {
 
@@ -82,11 +82,11 @@ public void displayDefectTable(ArrayList<String> defectList, javax.servlet.jsp.J
 				//
 				String def = defect;
 				String[] info = def.split("@@@");
-				
+
 				if (!assignees.contains(info[3])) {
 					assignees.add(info[3]);
 				}
-				
+
 
 				out.println(defect);
 		 %> <br>
@@ -111,9 +111,9 @@ public void displayDefectTable(ArrayList<String> defectList, javax.servlet.jsp.J
 -->
 					<form action = "Edit_Defect_Form.jsp">
 								<input type="submit" value="Edit">
-					</form>		
-        <br><br><br> 
-        
+					</form>
+        <br><br><br>
+
         Email Status to:
         <!--- List of person should come from database  -->
          <select id="EmailStatus" name="EmailStatus">
@@ -125,8 +125,8 @@ public void displayDefectTable(ArrayList<String> defectList, javax.servlet.jsp.J
          </select>
 <!--        <button><a href="mailto:MichaelMorodomi@example.com" onClick="alert('Email Sent!')">Email</a></button> -->
 
-         <br><br><br>         
-                 
+         <br><br><br>
+
         <table border="5" bgcolor="#99FFFF" cellpadding="5">
             <tr bgcolor="#66CCFF">
                 <th><strong><font size="4">Defect Number</font></strong></th>
@@ -137,9 +137,9 @@ public void displayDefectTable(ArrayList<String> defectList, javax.servlet.jsp.J
                 <th><strong><font size="4">Detail Description</font></strong></th>
                 <th></th>
             </tr>
-            
+
             <tr>
-                <td></td>                
+                <td></td>
                 <td>
                 <select name="FilterByStatus">
                   <option value="all" selected="selected">All</option>
@@ -147,7 +147,7 @@ public void displayDefectTable(ArrayList<String> defectList, javax.servlet.jsp.J
                   <option value="close">Close</option>
                   <option value="in_progress">In Progress</option>
                   <option value="unknown">Unknown</option>
-                 </select> 
+                 </select>
              </td>
              <td>
                 <select name="FilterByPriority">
@@ -164,7 +164,7 @@ public void displayDefectTable(ArrayList<String> defectList, javax.servlet.jsp.J
                   <option value="all" selected="selected">All</option>
 
 				  <!-- Add All Assignees here -->
-				  <% int index = 0; 
+				  <% int index = 0;
 				     for (String assignee : assignees) {
 
 						 String strValue = "assignee" + Integer.toString(index++); %>
@@ -173,17 +173,17 @@ public void displayDefectTable(ArrayList<String> defectList, javax.servlet.jsp.J
 
                   <% } %>
 
-                    <form action = "DefectTracker.jsp"></form>		
-				 
+                    <form action = "DefectTracker.jsp"></form>
+
 					<% assign = request.getParameter("FilterByAssignee"); %>
-					
-					
+
+
              <!-- <option value="assignee1">Mike Morodomi</option>
                   <option value="assignee2">Perry On</option>
                   <option value="assignee3">Ryan Suzuki</option>
                   <option value="assignee4">Putul Patel</option> -->
                  </select></form>
-				 
+
 				  <% out.println(assign); %>
              </td>
              <td></td>
@@ -193,11 +193,11 @@ public void displayDefectTable(ArrayList<String> defectList, javax.servlet.jsp.J
 			<% displayDefectTable(defectList, out, request); %>
 
            <!--- Value should be read from database and use JSP to populate the table. (This is hardcoded as an example)-->
-		   
+
 		   <% for (String defect : defectList) {
 
 			      String[] defectInfo = defect.split("@@@"); %>
-				  
+
  	              <tr>
                        <td><%=defectInfo[0]%></td>
                        <td><%=defectInfo[1]%></td>
