@@ -50,6 +50,8 @@ public class DefectDao {
     //getAllDefects();
 
     //Need to add email method? Does that go in here?
+    
+    //Need to add edit/update defect
 
     //Need to add assign a defect request to a person
 
