@@ -9,9 +9,12 @@ public class DefectController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    //need to edit here
-    private static String ADD_OR_EDIT = "/example.jsp";
-    private static String LIST_DEFECT = "/defect.jsp";
+    //these will need to be changed accordingly.
+    private static String ADD_OR_EDIT = "/update.jsp";
+    private static String VIEW_DEFECTS = "/defects.jsp";
+    private static String HOME = "/index.jsp";
+    private static String EMAIL_SUCCESS = "/email.jsp";
+
     private DefectDao dao;
 
     public DefectController() {
@@ -23,54 +26,67 @@ public class DefectController extends HttpServlet {
 /* -------------------------------------------------------------------------------------------
 All of these actions will take the data from the JSP file and submit it to the MySql Database
 The parameters must by in sync with the JSP <form>
+So check button "names"
 ---------------------------------------------------------------------------------------------*/
 
+    //GET operations DO NOT alter data
     public void doGet(HttpServletRequest request, HttpServletResponse response)
               throws ServletException, IOException {
 
-              String jspPage = "";
-              String action = request.getParameter("action");
-                
-                //equalsIgnoreCase() compares Strings without case sensitivity.
-              if (action.equalsIgnoreCase("delete")) {
-                    String defectId = request.getParameter("defectId");
-                    dao.deleteDefect(defectId);
-                    jspPage = LIST_DEFECT;
-                    request.setAttribute("defects", dao.getAllDefects());
-              } else if (action.equalsIgnoreCase("edit")) {
-                  jspPage = ADD_OR_EDIT;
-                  String userId = request.getParameter("defectId");
-                  Defect defect = dao.getDefectById(defectId);
-                  request.setAttribute("defect", defect);
-              } else if(action.equalsIgnoreCase("listDefect")){
-                  jspPage = LIST_DEFECT;
-                  request.setAttribute("defects", dao.getAllDefects());
+              response.setContentType("text/html");
+              PrintWriter out = response.getWriter();
+
+              String forward = "";
+              String a = request.getParameter("buttonName");
+              String b = request.getParameter("buttonName2");
+
+              if (a.equals("viewAllDefects")) {
+                    forward = VIEW_DEFECTS;
+                    //check method name and parameters
+                    request.setAttribute("defectList", dao.getAllDefects());
+              } else if (b.equals("sendEmail")) {
+                    forward = EMAIL_SUCCESS;
+                    String userId = request.getParameter("userId");
+                    dao.emailUser(userId); //check method name and parameters
+                    request.setAttribute("email", dao.emailUser());
               } else {
-                  jspPage = ADD_OR_EDIT;
+                  forward = HOME;
+                  out.print("Something went wrong...");
+
               }
 
               RequestDispatcher rd = request.getRequestDispatcher(forward);
               rd.forward(request, response);
     }
 
+    //POST operations DO alter data
     public void doPost(HttpServletRequest request, HttpServletResponse response)
            throws ServletException, IOException {
 
-            Defect defect = new Defect();
-            //add more here
+            response.setContentType("text/html");
+            PrintWriter out = response.getWriter();
 
-            try {
-                Date creation = new SimpleDateFormat("yyyy/MM/dd").parse(request.getParameter(""));
-                System.out.println("Created on: " + creation);
-                defect.setDateOfCreation(creation);
-              } catch (ParseException e) {
-                  e.printStackTrace();
-              }
-              defect.setExample(request.getParameter("example"));
-              String example = request.getParameter("example");
+            String c = request.getParameter("buttonName3");
+            String d = request.getParameter("buttonName4");
 
-              RequestDispatcher rd = request.getRequestDispatcher(LIST_DEFECT);
-              request.setAttribute("defects", dao.getAllDefects());
-              rd.forward(request, response);
+            if (c.equals("addDefect")) {
+                forward = HOME;
+                Defect defect = new Defect();
+                defect.setStatus(request.getParameter("status"));
+                defect.setAssignee(request.getParameter("assignee"));
+                defect.setSummary(request.getParameter("summary"));
+                defect.setDescription(request.getParameter("description"));
+                request.setAttribute("addDefect", dao.addDefect(defect));
+            } else if (d.equals("editDefect")) {
+                forward = HOME;
+                // must edit this section.
+
+                
+            } else {
+                  out.print("Something went wrong.");
             }
+            RequestDispatcher rd = request.getRequestDispatcher(forward);
+            rd.forward(request, response);
+
+      }
 } //end of Class
