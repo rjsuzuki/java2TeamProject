@@ -1,8 +1,8 @@
 import java.io.*;
 import java.text.*;
 import java.util.Date;
-import java.servlet.*;
-import java.servlet.http.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
 
 
 public class DefectController extends HttpServlet {
@@ -10,10 +10,10 @@ public class DefectController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     //these will need to be changed accordingly.
-    private static String ADD_OR_EDIT = "/update.jsp";
-    private static String VIEW_DEFECTS = "/defects.jsp";
+    private static String VIEW_DEFECTS = "/DefectTracker.jsp";
     private static String HOME = "/index.jsp";
     private static String EMAIL_SUCCESS = "/email.jsp";
+    String forward = "";
 
     private DefectDao dao;
 
@@ -36,9 +36,8 @@ So check button "names"
               response.setContentType("text/html");
               PrintWriter out = response.getWriter();
 
-              String forward = "";
-              String a = request.getParameter("buttonName");
-              String b = request.getParameter("buttonName2");
+              String a = request.getParameter("viewAllDefects");
+              String b = request.getParameter("sendEmail");
 
               if (a.equals("viewAllDefects")) {
                     forward = VIEW_DEFECTS;
@@ -46,9 +45,7 @@ So check button "names"
                     request.setAttribute("defectList", dao.getAllDefects());
               } else if (b.equals("sendEmail")) {
                     forward = EMAIL_SUCCESS;
-                    String userId = request.getParameter("userId");
-                    dao.emailUser(userId); //check method name and parameters
-                    request.setAttribute("email", dao.emailUser());
+                    //add code here
               } else {
                   forward = HOME;
                   out.print("Something went wrong...");
@@ -66,22 +63,22 @@ So check button "names"
             response.setContentType("text/html");
             PrintWriter out = response.getWriter();
 
-            String c = request.getParameter("buttonName3");
-            String d = request.getParameter("buttonName4");
+            String c = request.getParameter("addDefect");
+            String d = request.getParameter("editDefect");
 
             if (c.equals("addDefect")) {
                 forward = HOME;
                 Defect defect = new Defect();
                 defect.setStatus(request.getParameter("status"));
+                defect.setPriority(request.getParameter("priority"));
                 defect.setAssignee(request.getParameter("assignee"));
                 defect.setSummary(request.getParameter("summary"));
                 defect.setDescription(request.getParameter("description"));
-                request.setAttribute("addDefect", dao.addDefect(defect));
+                dao.addDefect(defect);
             } else if (d.equals("editDefect")) {
                 forward = HOME;
                 // must edit this section.
 
-                
             } else {
                   out.print("Something went wrong.");
             }
