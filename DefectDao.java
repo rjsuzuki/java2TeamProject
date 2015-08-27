@@ -1,4 +1,3 @@
-
 import java.sql.*;
 import java.util.*;
 
@@ -9,21 +8,10 @@ public class DefectDao {
       connection = Database.getConnection();
     }
 
-    public void checkDefect(Defect defect) {
-        try {
-            //Need to edit MYSQL statement
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM defectList where * = ?");
-            ps.setString(1, defect.get);
-
-        }
-    }
-
     public void addDefect(Defect defect) {
           try {
               //Need to edit MYSQL statement
-              PreparedStatement ps = connection.prepareStatement("INSERT INTO defectList 
-                                                                    (status, priority, assignee, summary, description)
-                                                                    values (?, ?, ?, ?, ?)");
+              PreparedStatement ps = connection.prepareStatement("INSERT INTO DEFECTLIST(status, priority, assignee, summary, description)VALUES (?, ?, ?, ?, ?)");
               ps.setString(1, defect.getStatus());
               ps.setString(2, defect.getPriority());
               ps.setString(3, defect.getAssignee());
@@ -35,25 +23,29 @@ public class DefectDao {
           }
     }
 
-    public void deleteDefect(int defectId) {
+    //getAllDefects();
+    public List<Defect> getAllDefects() {
+        List<Defect> defectList = new ArrayList<Defect>();
+
         try {
-            //Need to edit MYSQL statement
-            PrepararedStatement ps = connection.prepareStatement("");
-            ps.setString(1, defectId);
-            ps.executeUpdate();
-          } catch (SQLException e) {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM DEFECTLIST");
+            while (rs.next()) {
+                  Defect defect = new Defect();
+                  defect.setStatus(rs.getString("status"));
+                  defect.setPriority(rs.getString("priority"));
+                  defect.setAssignee(rs.getString("assignee"));
+                  defect.setSummary(rs.getString("summary"));
+                  defect.setDescription(rs.getString("description"));
+                  defectList.add(defect);
+            }
+        } catch (SQLException e) {
               e.printStackTrace();
-          }
+        }
+        return defectList;
     }
 
-    //Need to add view method to see all Defects
-    //getAllDefects();
-
     //Need to add email method? Does that go in here?
-    
-    //Need to add edit/update defect
-
-    //Need to add assign a defect request to a person
 
 
 
