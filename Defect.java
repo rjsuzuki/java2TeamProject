@@ -1,3 +1,4 @@
+import java.util.*;
 import java.util.Date;
 
 public class Defect {
@@ -8,7 +9,10 @@ public class Defect {
     private String assignee;
     private String summary;
     private String description;
+    private List<Defect> defectList;
+
     Date dateOfCreation;
+
 
     public void setDefectId(int defectId) {
         this.defectId = defectId;
@@ -35,13 +39,11 @@ public class Defect {
     }
 
     //Relationship between Assignee and User is unclear.
-    public String getAssignee() {
-        assignee = User.getEmail();
-        return assignee;
-    }
-
     public void setAssignee(String assignee) {
-        assignee = User.setEmail(this.assignee);
+        this.assignee = assignee;
+    }
+    public String getAssignee() {
+          return assignee;
     }
 
 
