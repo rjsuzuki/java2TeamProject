@@ -40,4 +40,4 @@ public class User {
             ", Last Name: " + lastName + ", Email: " + email;
       }
 
-}
+} //End of Class
