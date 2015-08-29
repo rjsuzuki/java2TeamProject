@@ -1,0 +1,35 @@
+
+CREATE DATABASE defectTracker;
+USE defectTracker;
+
+CREATE TABLE defects(id int auto_increment, status varchar(100) NOT NULL, assignee varchar(100) NULL, summary varchar(100) NULL, description varchar(200) NULL, priority int NULL, primary key (id));
+
+INSERT INTO defects(status, assignee, summary, description, priority) VALUES("Unknown", "Michael Morodomi", "Defect1", "This is the 1st defect.", 2);
+
+INSERT INTO defects(status, assignee, summary, description, priority) VALUES("Open", "Perry On", "Defect2", "This is the 2nd defect.", 3);
+
+INSERT INTO defects(status, assignee, summary, description, priority) VALUES("Complete", "Putul Patel", "Defect3", "This is the 3rd defect.", 1);
+
+SELECT * FROM defects;
+
+--------------------------------------------------------
+
+CREATE TABLE status(id int auto_increment, status varchar(100) NOT NULL, primary key (id));
+
+INSERT INTO status(status) VALUES("Unknown");
+INSERT INTO status(status) VALUES("Open");
+INSERT INTO status(status) VALUES("Complete");
+INSERT INTO status(status) VALUES("Hold");
+
+SELECT * FROM status;
+
+--------------------------------------------------------
+
+CREATE TABLE assignee(id int NOT NULL auto_increment, fname varchar(100) NOT NULL, lname varchar(100) NOT NULL, email varchar(100) NULL, primary key (id));
+
+INSERT INTO assignee(fname, lname) VALUES("Michael", "Morodomi");
+INSERT INTO assignee(fname, lname) VALUES("Perry", "On");
+INSERT INTO assignee(fname, lname, email) VALUES("Putul", "Patel", "putulpatel@gmail.com");
+INSERT INTO assignee(fname, lname) VALUES("Ryan", "Suzuki");
+
+SELECT * FROM assignee;
