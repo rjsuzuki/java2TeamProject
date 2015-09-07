@@ -51,9 +51,9 @@
 		<!-- ADD Defect Button                                                  -->
 		<!------------------------------------------------------------------------>
 		<div>
-			<b>Submit a Defect:</b>
+			<b>Add a Defect:</b>
 			<form action = "/DefectTracker/jsp/Add_Defect_Form.jsp">
-				<input type="submit" value="Submit Defect">
+				<input type="submit" value="Add Defect">
 			</form>
 		</div>
         <br><br>
