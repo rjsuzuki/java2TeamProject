@@ -10,9 +10,12 @@ INSERT INTO defects(status, assignee, summary, description, priority) VALUES("Op
 
 INSERT INTO defects(status, assignee, summary, description, priority) VALUES("Complete", "Putul Patel", "Defect3", "This is the 3rd defect.", 1);
 
+INSERT INTO defects(status, assignee, summary, description, priority) VALUES("Hold", "Karen Sam", "Defect4", "This is the 4th defect.", 5);
+
+INSERT INTO defects(status, assignee, summary, description, priority) VALUES("Open", "Ryan Suzuki", "Defect5", "This is the 5th defect.", 1);
+
 SELECT * FROM defects;
 
---------------------------------------------------------
 
 CREATE TABLE status(id int auto_increment, status varchar(100) NOT NULL, primary key (id));
 
@@ -23,13 +26,13 @@ INSERT INTO status(status) VALUES("Hold");
 
 SELECT * FROM status;
 
---------------------------------------------------------
 
 CREATE TABLE assignee(id int NOT NULL auto_increment, fname varchar(100) NOT NULL, lname varchar(100) NOT NULL, email varchar(100) NULL, primary key (id));
 
-INSERT INTO assignee(fname, lname) VALUES("Michael", "Morodomi");
-INSERT INTO assignee(fname, lname) VALUES("Perry", "On");
+INSERT INTO assignee(fname, lname, email) VALUES("Michael", "Morodomi", "michaelmorodomi@yahoo.com");
+INSERT INTO assignee(fname, lname, email) VALUES("Perry", "On", "perryon@hotmail.com");
 INSERT INTO assignee(fname, lname, email) VALUES("Putul", "Patel", "putulpatel@gmail.com");
-INSERT INTO assignee(fname, lname) VALUES("Ryan", "Suzuki");
+INSERT INTO assignee(fname, lname, email) VALUES("Ryan", "Suzuki", "ryansuzuki@rocketmail.com");
+INSERT INTO assignee(fname, lname, email) VALUES("Karen", "Sam", "karensam@aol.com");
 
 SELECT * FROM assignee;
