@@ -1,26 +1,18 @@
 import java.io.*;
-import java.text.*;
-import java.util.Date;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
+
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.Statement;
 
 
 public class DefectController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-
-    //these will need to be changed accordingly.
-    private static String VIEW_DEFECTS = "/DefectTracker.jsp";
-    private static String HOME = "/index.jsp";
-    private static String EMAIL_SUCCESS = "/email.jsp";
-    String forward = "";
-
-    private DefectDao dao;
-
-    public DefectController() {
-        super();
-        dao = new DefectDao();
-    }
 
 
 /* -------------------------------------------------------------------------------------------
@@ -29,61 +21,177 @@ The parameters must by in sync with the JSP <form>
 So check button "names"
 ---------------------------------------------------------------------------------------------*/
 
-    //GET operations DO NOT alter data
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
-              throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 
-              response.setContentType("text/html");
-              PrintWriter out = response.getWriter();
+		// call doPost method
+		doPost(request, response);
+	}
 
-              String a = request.getParameter("viewAllDefects");
-              String b = request.getParameter("sendEmail");
 
-              if (a.equals("viewAllDefects")) {
-                    forward = VIEW_DEFECTS;
-                    //check method name and parameters
-                    request.setAttribute("defectList", dao.getAllDefects());
-              } else if (b.equals("sendEmail")) {
-                    forward = EMAIL_SUCCESS;
-                    //add code here
-              } else {
-                  forward = HOME;
-                  out.print("Something went wrong...");
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 
-              }
+		System.out.println("IN THE SERVLET........");
+		try {
 
-              RequestDispatcher rd = request.getRequestDispatcher(forward);
-              rd.forward(request, response);
-    }
+			String tableType = "All Defects List";
+			
+			// get the DB list type form the index.jsp
+			String listType = request.getParameter("defectListType");
+			System.out.println("LIST TYPE:  " + listType);
 
-    //POST operations DO alter data
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
-           throws ServletException, IOException {
 
-            response.setContentType("text/html");
-            PrintWriter out = response.getWriter();
+			/**
+			 *  defect list from database
+			 */
+			ArrayList<Defect> defectList = new ArrayList<Defect>();
+			defectList.clear();
+			
+			/**
+			 * Connect to database....
+			 */
+			//STEP 1: Load the Driver
+			Class.forName("com.mysql.jdbc.Driver");
 
-            String c = request.getParameter("addDefect");
-            String d = request.getParameter("editDefect");
+			//STEP 2: Make a Connection to the Database
+			Connection connection = (Connection) Database.getConnection();
 
-            if (c.equals("addDefect")) {
-                forward = HOME;
-                Defect defect = new Defect();
-                defect.setStatus(request.getParameter("status"));
-                defect.setPriority(request.getParameter("priority"));
-                defect.setAssignee(request.getParameter("assignee"));
-                defect.setSummary(request.getParameter("summary"));
-                defect.setDescription(request.getParameter("description"));
-                dao.addDefect(defect);
-            } else if (d.equals("editDefect")) {
-                forward = HOME;
-                // must edit this section.
+			//STEP 3: Create a Statement
+			Statement statement = (Statement) connection.createStatement();
 
-            } else {
-                  out.print("Something went wrong.");
-            }
-            RequestDispatcher rd = request.getRequestDispatcher(forward);
-            rd.forward(request, response);
+			//STEP 4: Execute SQL Statements
+			if(listType == null) {
 
-      }
+				// GET ALL DEFECTS
+				statement.execute("SELECT * FROM DEFECTS");
+				tableType = "All Defects List";
+			}
+			else if (listType.equals("SHOW ALL OPEN DEFECTS")) {
+
+				// GET ALL DEFECTS
+				statement.execute("SELECT * FROM DEFECTS WHERE status = 'Open'");
+				tableType = "All Open Defects List";
+			}
+			else {
+
+				// GET ALL DEFECTS
+				statement.execute("SELECT * FROM DEFECTS");
+				tableType = "All Defects List";
+			}
+
+
+			//STEP 5: Process the Results
+			ResultSet rs = statement.getResultSet();
+
+			if (rs != null) {
+				while (rs.next()) {
+					System.out.println("ID: " + rs.getString(1) +
+							           " STATUS: " + rs.getString(2) +
+					                   " ASSIGNEE: " + rs.getString(3) +
+					                   " SUMMARY: " + rs.getString(4) +
+					                   " DESCRIPTION: " + rs.getString(5) +
+					                   " PRIORITY: " + rs.getString(6));
+
+					Defect def = new Defect();
+					def.setDefectId(Integer.parseInt(rs.getString(1)));
+					def.setStatus(rs.getString(2));
+					def.setAssignee(rs.getString(3));
+					def.setSummary(rs.getString(4));
+					def.setDescription(rs.getString(5));
+					def.setPriority(Integer.parseInt(rs.getString(6)));
+
+					defectList.add(def);
+				}
+			}
+
+			
+			/////////////////////////////////////////////////////////
+			// GET ASSIGNEES LIST
+			/////////////////////////////////////////////////////////
+			
+			/**
+			 *  assignee list from database
+			 */
+			ArrayList<String> assigneeList = new ArrayList<String>();
+			assigneeList.clear();
+			
+			// Get assignee's from DB
+			statement.execute("SELECT * FROM ASSIGNEE");
+			
+			// Setup assignee array
+			rs = statement.getResultSet();
+
+			if (rs != null) {
+				while (rs.next()) {
+					
+					String assignee = rs.getString(2) + " " + rs.getString(3);
+					System.out.println("ASSIGNEE: " + assignee);
+
+					assigneeList.add(assignee);
+				}
+			}
+			
+			/////////////////////////////////////////////////////////
+			// GET DEFECT ID LIST
+			/////////////////////////////////////////////////////////
+			
+			/**
+			 *  defect ID list from database
+			 */
+			ArrayList<String> defectIdList = new ArrayList<String>();
+			defectIdList.clear();
+			
+			// GET ALL DEFECTS
+			statement.execute("SELECT * FROM DEFECTS");
+			
+			// Setup defect ID array
+			rs = statement.getResultSet();
+
+			if (rs != null) {
+				while (rs.next()) {
+					
+					String defId = rs.getString(1);
+					System.out.println("DEF ID: " + defId);
+
+					defectIdList.add(defId);
+				}
+			}
+
+
+			//STEP 6: Close the Statement and Connection
+			statement.close();
+			connection.close(); 
+			
+			for (Defect defect : defectList) {
+				System.out.println(defect.getDefectId() + ",  " +
+				                   defect.getStatus() + ", " +
+				                   defect.getAssignee() + ", " +
+				                   defect.getSummary() + ", " +
+				                   defect.getDescription() + ", " +
+				                   defect.getPriority());
+			}
+
+			// setup to send information to index.jsp
+	        RequestDispatcher view = request.getRequestDispatcher("/index.jsp");
+
+			// set message to be sent to JSP
+	        request.setAttribute("message", tableType);
+
+			// send defects to index jsp
+	        request.setAttribute("defectListDB", defectList);
+	        
+			// send assignees to index jsp
+	        request.setAttribute("assigneeListDB", assigneeList);
+
+	        // send defect all defect IDs to index jsp
+	        request.setAttribute("defectIdListDB", defectIdList);
+	        
+	        view.forward(request, response);
+		}
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 } //end of Class
