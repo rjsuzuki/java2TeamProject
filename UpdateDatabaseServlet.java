@@ -1,7 +1,4 @@
 import java.io.*;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -71,63 +68,13 @@ public class UpdateDatabaseServlet extends HttpServlet {
 				                                 "priority = " + priority + " " +
 				                                             "WHERE id = '" + defectId + "'");
 
-
-			/**
-			 *  defect list from database
-			 */
-			ArrayList<Defect> defectList = new ArrayList<Defect>();
-			defectList.clear();
-			
-			// GET ALL DEFECTS
-			statement.execute("SELECT * FROM DEFECTS");
-			String tableType = "All Defects List";
-
-			//STEP 5: Process the Results
-			ResultSet rs = statement.getResultSet();
-
-			if (rs != null) {
-				while (rs.next()) {
-					System.out.println("ID: " + rs.getString(1) +
-							           " STATUS: " + rs.getString(2) +
-					                   " STATUS: " + rs.getString(3) +
-					                   " STATUS: " + rs.getString(4) +
-					                   " STATUS: " + rs.getString(5) +
-					                   " STATUS: " + rs.getString(6));
-
-					Defect def = new Defect();
-					def.setDefectId(Integer.parseInt(rs.getString(1)));
-					def.setStatus(rs.getString(2));
-					def.setAssignee(rs.getString(3));
-					def.setSummary(rs.getString(4));
-					def.setDescription(rs.getString(5));
-					def.setPriority(Integer.parseInt(rs.getString(6)));
-
-					defectList.add(def);
-				}
-			}
-
-			//STEP 6: Close the Statement and Connection
+			//STEP 5: Close the Statement and Connection
 			statement.close();
 			connection.close(); 
-			
-			for (Defect defect : defectList) {
-				System.out.println(defect.getDefectId() + ",  " +
-				                   defect.getStatus() + ", " +
-				                   defect.getAssignee() + ", " +
-				                   defect.getSummary() + ", " +
-				                   defect.getDescription() + ", " +
-				                   defect.getPriority());
-			}
+
 
 			// setup to send information to index.jsp
 	        RequestDispatcher view = request.getRequestDispatcher("/index.jsp");
-
-			// set message to be sent to JSP
-	        request.setAttribute("message", tableType);
-
-
-			// send defects to index jsp
-	        request.setAttribute("defectListDB", defectList);
 	        view.forward(request, response);
 
 		}
