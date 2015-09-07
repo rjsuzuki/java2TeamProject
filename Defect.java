@@ -1,17 +1,13 @@
 import java.util.*;
-import java.util.Date;
 
 public class Defect {
 
     private int defectId;
     private String status;
-    private String priority;
+    private int priority;
     private String assignee;
     private String summary;
     private String description;
-    private List<Defect> defectList;
-
-    Date dateOfCreation;
 
 
     public void setDefectId(int defectId) {
@@ -19,7 +15,7 @@ public class Defect {
     }
 
     public int getDefectId() {
-        return defectId;
+        return this.defectId;
     }
 
     public void setStatus(String status) {
@@ -27,15 +23,15 @@ public class Defect {
     }
 
     public String getStatus() {
-        return status;
+        return this.status;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(int priority) {
         this.priority = priority;
     }
 
-    public String getPriority() {
-        return priority;
+    public int getPriority() {
+        return this.priority;
     }
 
     //Relationship between Assignee and User is unclear.
@@ -43,16 +39,15 @@ public class Defect {
         this.assignee = assignee;
     }
     public String getAssignee() {
-          return assignee;
+          return this.assignee;
     }
-
 
     public void setSummary(String summary) {
         this.summary = summary;
     }
 
     public String getSummary() {
-        return summary;
+        return this.summary;
     }
 
     public void setDescription(String description) {
@@ -60,14 +55,6 @@ public class Defect {
     }
 
     public String getDescription() {
-        return description;
-    }
-
-    public void setDateOfCreation(Date dateOfCreation) {
-          this.dateOfCreation = dateOfCreation;
-    }
-
-    public Date getDateOfCreation() {
-          return dateOfCreation;
+        return this.description;
     }
 }
