@@ -6,8 +6,8 @@ public class Database {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection
                         //Need to edit the values below
-                      ("jdbc:mysql://localhost:3306/dbname", 
-                      "root", "password");
+                      ("jdbc:mysql://localhost:3306/defecttracker", 
+                      "root", "pencil");
                       return connection;
         } catch (Exception e) {
           System.out.println("An error occured: " + e);
