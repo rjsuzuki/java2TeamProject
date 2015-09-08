@@ -11,15 +11,11 @@
  */
 
 import java.io.*;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 
 import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
 
 
@@ -48,43 +44,30 @@ public class AddDefectDatabaseServlet extends HttpServlet {
 			Class.forName("com.mysql.jdbc.Driver");
 
 			//STEP 2: Make a Connection to the Database
-			Connection connection = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/defecttracker","root", "Password1");
+			Connection connection = (Connection) Database.getConnection();
 
 			//STEP 3: Create a Statement
 			Statement statement = (Statement) connection.createStatement();
 			
 			//STEP 4: Execute SQL Statements
 			System.out.println("1");
-			/*String sqlx = "INSERT INTO defects(status, assignee, summary, description, priority)" + "VALUES(?, ?, ?, ?, ?)";
-			System.out.println("2");
-			PreparedStatement psx = (PreparedStatement) connection.prepareStatement(sqlx);
-			System.out.println("3");
-			System.out.println(request.getParameter("status"));
-			System.out.println(request.getParameter("assignee"));
-			System.out.println(request.getParameter("summary"));
-			System.out.println(request.getParameter("description"));
-			System.out.println(request.getParameter("priority"));
-			psx.setString(1, request.getParameter("status"));
-			psx.setString(2, request.getParameter("assignee"));
-			psx.setString(3, request.getParameter("summary"));
-			psx.setString(4, request.getParameter("description"));
-			psx.setString(5, request.getParameter("priority"));
-			System.out.println("4");
-			psx.executeUpdate(); 
-			System.out.println("5");
-			statement.execute(sqlx);
-			*/
 			String status = request.getParameter("status");
 			String assignee = request.getParameter("assignee");
 			String summary = request.getParameter("summary");
 			String description = request.getParameter("description");
 			String priority = request.getParameter("priority");
-			statement.execute("INSERT INTO defects(status, assignee, summary, description, priority) VALUES ('" +
-					status + "', '" + 
-					assignee + "', '" +
-                    summary + "', '" +
-                    description + "', " +
+			System.out.println("Before: " + summary);
+			summary = summary.replaceAll("\"", "\\\"");
+			System.out.println("After: " + summary);
+			description = description.replaceAll("\"", "\\\"");
+			statement.execute("INSERT INTO defects(status, assignee, summary, description, priority) VALUES (\"" +
+					status + "\", \"" + 
+					assignee + "\", \"" +
+                    summary + "\", \"" +
+                    description + "\", " +
                     priority + ")");
+			statement.close();
+			connection.close(); 
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());
