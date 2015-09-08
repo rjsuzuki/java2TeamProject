@@ -1,3 +1,4 @@
+package java2.teamproject;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -47,9 +48,13 @@ public class EmailDAO {
 				defectObj.setAssignee(rs2.getString(3));
 				defectObj.setSummary(rs2.getString(4));
 				defectObj.setDescription(rs2.getString(5));
-				defectObj.setPriority(rs2.getInt(6));
+				defectObj.setPriority(rs2.getString(6));
 			}
 		}
+		
+		//Close the Statement and Connection
+		statement.close();
+		connection.close(); 
 		
 		System.out.println("sendEmail: email = "+email);
 		
@@ -67,4 +72,3 @@ public class EmailDAO {
     }
 
 }
-
