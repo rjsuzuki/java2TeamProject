@@ -63,6 +63,18 @@
 		<servlet-name>EmailServlet</servlet-name>
 		<url-pattern>/EmailServlet</url-pattern>
 	</servlet-mapping>
+
+	<!--*******************************************************************-->
+	<!-- Servlet to add defect to database                                 -->
+	<!--*******************************************************************-->
+	<servlet>
+        <servlet-name>AddDefectDatabaseServlet</servlet-name>
+        <servlet-class>AddDefectDatabaseServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddDefectDatabaseServlet</servlet-name>
+        <url-pattern>/AddDefectDatabaseServlet</url-pattern>
+    </servlet-mapping>
 	
 	<resource-ref>
 		<description>My description... </description>
