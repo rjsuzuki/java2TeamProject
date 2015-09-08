@@ -119,8 +119,8 @@
 									<td align="center">${DefectDB.status}</td>
 									<td align="center">${DefectDB.priority}</td>
 									<td style="word-wrap: break-word;" width="140">${DefectDB.assignee}</td>
-									<td style="word-wrap: break-word;" width="140">${DefectDB.summary}</td>
-									<td style="word-wrap: break-word;" width="210">${DefectDB.description}</td>
+									<td style="word-wrap: break-word;" width="250">${DefectDB.summary}</td>
+									<td style="word-wrap: break-word;" width="300">${DefectDB.description}</td>
 									<c:set var="edit" value="Edit-" />
 									<c:set var="editLabel" value="${edit}${DefectDB.defectId}" />
 									<td align="center">
