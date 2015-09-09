@@ -22,7 +22,9 @@ public class UpdateDatabaseServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
+		
+		// setup to send information to index.jsp
+        RequestDispatcher view = request.getRequestDispatcher("/index.jsp");
 		System.out.println("IN THE UPDATE DATABASE SERVLET........");
 		try {
 			
@@ -34,7 +36,7 @@ public class UpdateDatabaseServlet extends HttpServlet {
 			String summary = request.getParameter("summary");
 			String description = request.getParameter("description");
 			
-			// fix apostrohpe escape key issue with mysql
+			// fix apostrophe escape key issue with mysql
 			description = description.replaceAll("'", "''");
 			summary = summary.replaceAll("'", "''");
 
@@ -71,15 +73,10 @@ public class UpdateDatabaseServlet extends HttpServlet {
 			//STEP 5: Close the Statement and Connection
 			statement.close();
 			connection.close(); 
-
-
-			// setup to send information to index.jsp
-	        RequestDispatcher view = request.getRequestDispatcher("/index.jsp");
-	        view.forward(request, response);
-
 		}
 		catch (Exception e) {
 			
 		}
+        view.forward(request, response);
 	}
 } //end of Class
