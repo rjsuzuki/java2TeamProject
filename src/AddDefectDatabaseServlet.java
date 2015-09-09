@@ -57,15 +57,25 @@ public class AddDefectDatabaseServlet extends HttpServlet {
 			String description = request.getParameter("description");
 			String priority = request.getParameter("priority");
 			System.out.println("Before: " + summary);
-			summary = summary.replaceAll("\"", "\\\"");
+			// fix apostrophe escape key issue with mysql
+			description = description.replaceAll("'", "''");
+			summary = summary.replaceAll("'", "''");
 			System.out.println("After: " + summary);
-			description = description.replaceAll("\"", "\\\"");
+			/* original
 			statement.execute("INSERT INTO defects(status, assignee, summary, description, priority) VALUES (\"" +
+			
 					status + "\", \"" + 
 					assignee + "\", \"" +
                     summary + "\", \"" +
                     description + "\", " +
                     priority + ")");
+            */
+			statement.execute("INSERT INTO defects(status, assignee, summary, description, priority) VALUES ('" +
+					status + "', '" + 
+					assignee + "', '" +
+                    summary + "', '" +
+                    description + "', " +
+                    priority + ")");	
 			statement.close();
 			connection.close(); 
 		}
