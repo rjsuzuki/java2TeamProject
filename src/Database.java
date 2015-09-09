@@ -9,6 +9,9 @@ public class Database {
                       ("jdbc:mysql://localhost:3306/defecttracker", 
                       "root", "pencil");
                       return connection;
+        } catch (SQLException e) {
+            System.out.println("Cannot connect to database: " + e);
+            return null;
         } catch (Exception e) {
           System.out.println("An error occured: " + e);
           return null;
