@@ -11,6 +11,7 @@
  */
 
 import java.io.*;
+import java.sql.SQLException;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -78,6 +79,9 @@ public class AddDefectDatabaseServlet extends HttpServlet {
                     priority + ")");	
 			statement.close();
 			connection.close(); 
+		}
+		catch (SQLException e) {
+            System.out.println("Cannot connect to database: " + e);
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());
