@@ -12,12 +12,13 @@ public class EmailDAO {
     private String email = "";
     
     public EmailDAO() {
-    	connection = Database.getConnection();
     	defectObj = new Defect();
     }
     
     public boolean sendEmail(String assignee, String defectId) throws NamingException, SQLException {
     	Statement statement;
+    	connection = Database.getConnection();
+    	
     	// name[0] = first name
     	// name[1] = last name
     	String name[] = assignee.split(" ");
