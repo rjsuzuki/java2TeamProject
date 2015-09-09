@@ -1,6 +1,7 @@
 import java.io.*;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.*;
@@ -133,8 +134,11 @@ public class EditDefectDatabaseServlet extends HttpServlet {
 			// send assignees to Edit_Defect_Form.jsp
 	        request.setAttribute("assigneeListDB", assigneeList);
 		}
+		catch (SQLException e) {
+            System.out.println("Cannot connect to database: " + e);
+		}
 		catch (Exception e) {
-			
+			System.out.println(e.getMessage());
 		}
         view.forward(request, response);
 	}
