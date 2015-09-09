@@ -25,7 +25,8 @@ public class EditDefectDatabaseServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
+		// setup to send defect to Edit_Defect_Form.jsp
+        RequestDispatcher view = request.getRequestDispatcher("/jsp/Edit_Defect_Form.jsp");
 		System.out.println("IN THE EDIT DEFECT SERVLET........");
 		try {
 			
@@ -126,21 +127,15 @@ public class EditDefectDatabaseServlet extends HttpServlet {
 			                   def.getDescription() + ", " +
 			                   def.getPriority());
 
-
-			// setup to send defect to Edit_Defect_Form.jsp
-	        RequestDispatcher view = request.getRequestDispatcher("/jsp/Edit_Defect_Form.jsp");
-
 			// send defect to Edit_Defect_Form.jsp
 	        request.setAttribute("defect", def);
 
 			// send assignees to Edit_Defect_Form.jsp
 	        request.setAttribute("assigneeListDB", assigneeList);
-
-	        view.forward(request, response);
-
 		}
 		catch (Exception e) {
 			
 		}
+        view.forward(request, response);
 	}
 } //end of Class
