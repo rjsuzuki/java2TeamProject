@@ -90,7 +90,7 @@
 
 			<!-- Update summary -->
             <b> * Summary: </b>
-            <input type="text" id="id_summary" name="summary" value="<c:out value="${summary}" />" />
+            <input type="text" id="id_summary" name="summary" maxlength="100" value="<c:out value="${summary}" />" />
 			<label style="padding-left: 8px;">(100 character max)</label>
             <br><br><br>
 
@@ -98,7 +98,7 @@
             <b> * Detail Description: </b>
             <br>
 			<div style="padding-left: 10px;">
-            <textarea name="description" rows="5" cols="50" id="id_description" name="description">${description}</textarea>
+            <textarea name="description" rows="5" cols="50" id="id_description" maxlength="200" name="description">${description}</textarea>
 			<label style="padding-left: 8px;">(200 character max)</label>
 			</div>
 			<p style="padding-left: 10px;"> * required fields</p>
