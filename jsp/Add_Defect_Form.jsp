@@ -30,10 +30,6 @@
 				alert('Please enter the summary.');
 				return false;
 			}
-			else if (document.getElementById('summary').length > 100) {
-				alert('Please enter the summary less than 100 characters.');
-				return false;
-			}
 			else if (!document.getElementById('description').value.trim()) {
 				alert('Please enter the detailed description.');
 				return false;
@@ -87,13 +83,13 @@
          <br><br>
          
          <b> * Summary:</b>
-         <input type="text" id="summary" name="summary"> 
+         <input type="text" id="summary" name="summary" maxlength="100"> 
 		 <label style="padding-left: 8px;">(100 character max)</label>
          <br><br>         
          
          <b> * Detail Description (200 char max):</b>
          <br>
-         <textarea name="description" id="description" rows="5" cols="50"></textarea>  
+         <textarea name="description" id="description" rows="5" cols="50" maxlength="200"></textarea>  
 		 <label style="padding-left: 8px;">(200 character max)</label>		 
          <br><br>          
          <p style="padding-left: 10px;"> * required fields</p>
