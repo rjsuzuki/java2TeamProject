@@ -1,4 +1,5 @@
-
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('pencil');
+DROP DATABASE defectTracker;
 CREATE DATABASE defectTracker;
 USE defectTracker;
 
