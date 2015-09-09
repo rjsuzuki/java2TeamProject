@@ -30,6 +30,10 @@
 				alert('Please enter the summary.');
 				return false;
 			}
+			else if (document.getElementById('summary').length > 100) {
+				alert('Please enter the summary less than 100 characters.');
+				return false;
+			}
 			else if (!document.getElementById('description').value.trim()) {
 				alert('Please enter the detailed description.');
 				return false;
