@@ -33,4 +33,5 @@ Tomcat configuration:
 08. Run database creation script by running mySql (enter password as needed) then copy and paste script to mySql console.
 09. Start tomcat with tomcat/bin/startup script
 10. Use following link from the web browser - localhost:8080/DefectTracker (Do not use Firefox browser.  Not compatible with FireFox)
+11. Please change your mysql password after you are finished.
 
