@@ -105,7 +105,7 @@
             <br>
 
 			<label style="padding-left: 260px;"></label>
-			<input type="submit" name="submit_name" value="Submit" />&nbsp;
+			<input type="submit" name="submit_name" value="Update" />&nbsp;
 
 			<!-- Cancel Defect Update -->
             <button type="button" onclick="location.href='/DefectTracker/index.jsp'">Cancel</button>
